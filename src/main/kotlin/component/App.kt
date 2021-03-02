@@ -1,21 +1,38 @@
 package component
 
 import kotlinx.html.ButtonType
-import kotlinx.html.InputType
 import kotlinx.html.id
-import react.RBuilder
-import react.RComponent
-import react.RProps
-import react.RState
+import kotlinx.html.js.onClickFunction
+import react.*
 import react.dom.*
 
-class App(props: RProps) : RComponent<RProps, RState>(props) {
+interface AppState : RState {
+    var selectNav: Int
+}
+
+class App(props: RProps) : RComponent<RProps, AppState>(props) {
+
+    private val navMenu = listOf(
+        "Dashboard",
+        "item_collection",
+        "log_active",
+        "multi_collection",
+        "multi_item",
+        "player",
+        "room",
+        "room_info",
+        "single_item",
+    )
+
+    override fun AppState.init(props: RProps) {
+        selectNav = 0
+    }
 
     override fun RBuilder.render() {
         // header
         header(classes = "navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow") {
             a(classes = "navbar-brand col-md-3 col-lg-2 me-0 px-3", href = "#") {
-                +"Company name"
+                +"The egg game - Report"
             }
             button(classes = "navbar-toggler position-absolute d-md-none collapsed", type = ButtonType.button) {
                 attrs["data-bs-toggle"] = "collapse"
@@ -24,17 +41,6 @@ class App(props: RProps) : RComponent<RProps, RState>(props) {
                 attrs["aria-expanded"] = "false"
                 attrs["aria-label"] = "Toggle navigation"
                 span(classes = "navbar-toggler-icon") {
-                }
-            }
-            input(classes = "form-control form-control-dark w-100", type = InputType.text) {
-                attrs.placeholder = "Search"
-                attrs["aria-label"] = "Search"
-            }
-            ul(classes = "navbar-nav px-3") {
-                li(classes = "nav-item text-nowrap") {
-                    a(classes = "nav-link", href = "#") {
-                        +"Sign out"
-                    }
                 }
             }
         }
@@ -47,68 +53,7 @@ class App(props: RProps) : RComponent<RProps, RState>(props) {
                     attrs.id = "sidebarMenu"
                     div(classes = "position-sticky pt-3") {
                         ul(classes = "nav flex-column") {
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link active", href = "#") {
-                                    attrs["aria-current"] = "page"
-                                    +"Dashboard"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Orders"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Products"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Customers"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Reports"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Integrations"
-                                }
-                            }
-                        }
-
-                        h6(classes = "sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted") {
-                            span {
-                                +"Saved reports"
-                            }
-                            a(classes = "link-secondary", href = "#") {
-                                attrs["aria-label"] = "Add a new report"
-                            }
-                        }
-                        ul(classes = "nav flex-column mb-2") {
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Current month"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Last quarter"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Social engagement"
-                                }
-                            }
-                            li(classes = "nav-item") {
-                                a(classes = "nav-link", href = "#") {
-                                    +"Year-end sale"
-                                }
-                            }
+                            navMenu()
                         }
                     }
                 }
@@ -121,14 +66,17 @@ class App(props: RProps) : RComponent<RProps, RState>(props) {
                         }
                         div(classes = "btn-toolbar mb-2 mb-md-0") {
                             div(classes = "btn-group me-2") {
-                                button(classes = "btn btn-sm btn-outline-secondary",type = ButtonType.button) {
+                                button(classes = "btn btn-sm btn-outline-secondary", type = ButtonType.button) {
                                     +"Share"
                                 }
-                                button(classes = "btn btn-sm btn-outline-secondary",type = ButtonType.button) {
+                                button(classes = "btn btn-sm btn-outline-secondary", type = ButtonType.button) {
                                     +"Export"
                                 }
                             }
-                            button(classes = "btn btn-sm btn-outline-secondary dropdown-toggle",type = ButtonType.button) {
+                            button(
+                                classes = "btn btn-sm btn-outline-secondary dropdown-toggle",
+                                type = ButtonType.button
+                            ) {
                                 span {
                                     attrs["data-feather"] = "calendar"
                                 }
@@ -435,6 +383,22 @@ class App(props: RProps) : RComponent<RProps, RState>(props) {
                                     }
                                 }
                             }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun RBuilder.navMenu() {
+        navMenu.forEachIndexed { index, navItem ->
+            li(classes = "nav-item") {
+                val linkActive = if (state.selectNav == index) "active" else ""
+                a(classes = "nav-link $linkActive") {
+                    +navItem.replace("_", " ").capitalize()
+                    attrs.onClickFunction = {
+                        setState {
+                            selectNav = index
                         }
                     }
                 }
