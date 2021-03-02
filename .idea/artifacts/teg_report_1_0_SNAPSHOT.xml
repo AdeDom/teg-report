@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="teg-report-1.0-SNAPSHOT">
+    <output-path>D:\IntelliJIDEA\Web\teg-report\build\libs</output-path>
+    <root id="archive" name="teg-report-1.0-SNAPSHOT.jar" />
+  </artifact>
+</component>

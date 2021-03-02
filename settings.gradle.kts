@@ -1,0 +1,3 @@
+
+rootProject.name = "teg-report"
+
