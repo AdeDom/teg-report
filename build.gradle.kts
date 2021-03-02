@@ -40,3 +40,7 @@ kotlin {
         }
     }
 }
+
+tasks.register("stage") {
+    dependsOn("build")
+}
