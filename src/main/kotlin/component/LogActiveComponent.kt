@@ -1,6 +1,6 @@
 package component
 
-import data.network.api.callRoom
+import data.network.api.callLogActive
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -10,24 +10,24 @@ import react.RProps
 import react.RState
 import react.dom.h1
 
-class Room(props: RProps) : RComponent<RProps, RState>(props) {
+class LogActiveComponent(props: RProps) : RComponent<RProps, RState>(props) {
 
     private val scope = MainScope()
 
     init {
         scope.launch {
-            val response = callRoom()
-            window.alert("rooms : " + response.rooms.size.toString())
+            val response = callLogActive()
+            window.alert("logActives : " + response.logActives.size.toString())
         }
     }
 
     override fun RBuilder.render() {
         h1 {
-            +"Room"
+            +"Log active"
         }
     }
 
 }
 
-fun RBuilder.room() = child(Room::class) {
+fun RBuilder.logActive() = child(LogActiveComponent::class) {
 }

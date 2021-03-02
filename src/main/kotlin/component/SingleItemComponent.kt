@@ -10,7 +10,7 @@ import react.RProps
 import react.RState
 import react.dom.h1
 
-class SingleItem(props: RProps) : RComponent<RProps, RState>(props) {
+class SingleItemComponent(props: RProps) : RComponent<RProps, RState>(props) {
 
     private val scope = MainScope()
 
@@ -29,5 +29,5 @@ class SingleItem(props: RProps) : RComponent<RProps, RState>(props) {
 
 }
 
-fun RBuilder.singleItem() = child(SingleItem::class) {
+fun RBuilder.singleItem() = child(SingleItemComponent::class) {
 }

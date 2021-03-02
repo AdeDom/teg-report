@@ -1,6 +1,6 @@
 package component
 
-import data.network.api.callRoomInfo
+import data.network.api.callPlayer
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -10,24 +10,24 @@ import react.RProps
 import react.RState
 import react.dom.h1
 
-class RoomInfo(props: RProps) : RComponent<RProps, RState>(props) {
+class PlayerComponent(props: RProps) : RComponent<RProps, RState>(props) {
 
     private val scope = MainScope()
 
     init {
         scope.launch {
-            val response = callRoomInfo()
-            window.alert("roomInfoList : " + response.roomInfoList.size.toString())
+            val response = callPlayer()
+            window.alert("players : " + response.players.size.toString())
         }
     }
 
     override fun RBuilder.render() {
         h1 {
-            +"Room info"
+            +"Player"
         }
     }
 
 }
 
-fun RBuilder.roomInfo() = child(RoomInfo::class) {
+fun RBuilder.player() = child(PlayerComponent::class) {
 }

@@ -1,6 +1,6 @@
 package component
 
-import data.network.api.callMultiCollection
+import data.network.api.callRoomInfo
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -10,24 +10,24 @@ import react.RProps
 import react.RState
 import react.dom.h1
 
-class MultiCollection(props: RProps) : RComponent<RProps, RState>(props) {
+class RoomInfoComponent(props: RProps) : RComponent<RProps, RState>(props) {
 
     private val scope = MainScope()
 
     init {
         scope.launch {
-            val response = callMultiCollection()
-            window.alert("multiCollections : " + response.multiCollections.size.toString())
+            val response = callRoomInfo()
+            window.alert("roomInfoList : " + response.roomInfoList.size.toString())
         }
     }
 
     override fun RBuilder.render() {
         h1 {
-            +"Multi collection"
+            +"Room info"
         }
     }
 
 }
 
-fun RBuilder.multiCollection() = child(MultiCollection::class) {
+fun RBuilder.roomInfo() = child(RoomInfoComponent::class) {
 }

@@ -1,6 +1,6 @@
 package component
 
-import data.network.api.callMultiItem
+import data.network.api.callMultiCollection
 import kotlinx.browser.window
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.launch
@@ -10,24 +10,24 @@ import react.RProps
 import react.RState
 import react.dom.h1
 
-class MultiItem(props: RProps) : RComponent<RProps, RState>(props) {
+class MultiCollectionComponent(props: RProps) : RComponent<RProps, RState>(props) {
 
     private val scope = MainScope()
 
     init {
         scope.launch {
-            val response = callMultiItem()
-            window.alert("multiItems : " + response.multiItems.size.toString())
+            val response = callMultiCollection()
+            window.alert("multiCollections : " + response.multiCollections.size.toString())
         }
     }
 
     override fun RBuilder.render() {
         h1 {
-            +"Multi item"
+            +"Multi collection"
         }
     }
 
 }
 
-fun RBuilder.multiItem() = child(MultiItem::class) {
+fun RBuilder.multiCollection() = child(MultiCollectionComponent::class) {
 }
